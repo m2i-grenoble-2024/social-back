@@ -53,3 +53,11 @@ En suivant les README des projets [symfony-auth](https://github.com/m2i-grenoble
 6. Côté back, on fait une méthode très similaire au findAll mais qui sera un findAllByUser qui attendra en plus un $idUser et qui ajoutera un where pour aller chercher spécifiquement les post d'un User
 7. Côté front, on fait une route paramétrée avec un idUser qu'on utilise pour lancer la requête findAllByUser pour afficher tous les posts d'un User donné.
 8. dans notre PostInList component, on fait donc en sorte que quand on clique sur un user, on se retrouve sur la page du User en question avec ses posts
+
+### Répondre à un post
+1. Modifier le insert du PostRepository pour y ajouter une condition : si getRespondTo() est nulle alors on assigne null en respond_to, sinon on assigne son getId() au bindValue. À priori rien à modifier dans le contrôleur.
+2. Pour les find des posts déjà fait, on rajoute un where pour récupérer seulement les posts dont le respond_to est null (pour ne pas récupérer les réponses à des posts)
+3. On crée une nouvelle méthode dérivée du findAll un findAllResponse(int $postId) et on ajoute donc un where pour récupérer toutes les réponses d'un post. On rajoute un get sur /api/post/id/response dans le contrôleur
+4. Côté front, on modifie le component AddPost pour lui rajouter un @Input optionnel de type Post qu'on assigne a la propriété respondTo de l'objet qu'on envoie vers le backend
+5. Modifier le PostInList pour faire qu'il ait un add-post qui s'affiche quand on click sur un bouton respond (affiché que si connecté) qui passe une variable showForm à true
+6. Créer une route paramétrée post/:id qui quand on va dessus, affiche le post par son id et fait également une requête pour aller chercher ses réponses et les afficher aussi
