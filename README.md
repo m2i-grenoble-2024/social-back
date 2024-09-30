@@ -48,3 +48,8 @@ En suivant les README des projets [symfony-auth](https://github.com/m2i-grenoble
 1. Dans le backend, créer un findAll(int $limit, int $offset) dans le PostRepository qui va récupérer les 15 derniers posts en utilisant une requête avec un LIMIT (regarder la doc, en gros on lui dit combien on récupère d'entrée, et combien on en skip) avec un ORDER BY sur le posted_at pour afficher les post les plus récents (si pagination trop compliqué, faire juste un findAll avec order by classique)
 2. Créer une méthode GET dans le PostController qui va récupérer une page dans la requête et à partir de cette requête calculer la limit et le offset (genre si c'est page 1, bah la limit c'est 15 et le offset c'est 0, si la page c'est 2, la limit c'est toujours 15 et le offset c'est 15)
 3. modifier la requête du findAll pour y faire un INNER JOIN sur la table user, et donc dans la boucle de résultat, on fera également une instance de User pour l'assigner en author du Post
+4. Côté front, créer un component PostInList qui attend un Post en input et affiche son contenu, sa date et le username de la personne qui a posté
+5. Dans la page d'accueil, on récupère les posts en appelant notre route GET et on fait une boucle pour afficher les PostInList
+6. Côté back, on fait une méthode très similaire au findAll mais qui sera un findAllByUser qui attendra en plus un $idUser et qui ajoutera un where pour aller chercher spécifiquement les post d'un User
+7. Côté front, on fait une route paramétrée avec un idUser qu'on utilise pour lancer la requête findAllByUser pour afficher tous les posts d'un User donné.
+8. dans notre PostInList component, on fait donc en sorte que quand on clique sur un user, on se retrouve sur la page du User en question avec ses posts
