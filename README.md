@@ -34,3 +34,17 @@ En suivant les README des projets [symfony-auth](https://github.com/m2i-grenoble
 * Le AuthController avec la méthode POST d'inscription qui va vérifier que le username n'existe pas déjà, hasher le mot de passe, assigner une date de création et faire persister le User
 * Les fichiers de configuration JWT et security.yaml
 * Côté Angular, un formulaire d'inscription et un formulaire de connexion
+
+**Scénario de test:** Lancer le back et le front, aller sur http://localhost:4200 et à partir de là naviguer sur la route /register où on remplit le formulaire d'inscription celui ci nous crée un User dans la base de données et nous redirige vers la route /login. Je remplis les credentials et une fois connecté⋅e je suis redirigé⋅e sur la page d'accueil avec un message de bienvenue + mon username
+
+### Poster un message
+1. Côté back, créer un PostRepository avec une méthode add et un INSERT INTO qui aura comme particularité d'aller chercher dans le `$post->getAuthor()->getId()` le author_id de la clé étrangère
+2. Créer un PostController avec une Route /api/post en POST (ça va faire beaucoup de posts) qui va récupérer l'entité de la requête (avec un MapRequestPayload), lui assigner la datetime de maintenant en postedAt, récupérer le user connecté avec le $this->getUser() et l'assigner en author avant de lancer la méthode du repository (il faudra donc protéger la route)
+3. Côté angular, créer un post-service qui va faire une requête vers la route du controller qu'on vient de créer, rien de particulier
+4. Créer ensuite un component add-post qui contiendra un formulaire (soit avec le FormsModule soit avec le ReactiveFormsModule, peu importe) qui n'aura en fait qu'un champ de text pour le contenu du post (tout le reste est assigné automatiquement par le back) et qui au submit va déclencher la méthode du service
+5. Charger ce component dans la page d'accueil et ne l'afficher que si on est connecté⋅e
+
+### Afficher les listes des posts
+1. Dans le backend, créer un findAll(int $limit, int $offset) dans le PostRepository qui va récupérer les 15 derniers posts en utilisant une requête avec un LIMIT (regarder la doc, en gros on lui dit combien on récupère d'entrée, et combien on en skip) avec un ORDER BY sur le posted_at pour afficher les post les plus récents (si pagination trop compliqué, faire juste un findAll avec order by classique)
+2. Créer une méthode GET dans le PostController qui va récupérer une page dans la requête et à partir de cette requête calculer la limit et le offset (genre si c'est page 1, bah la limit c'est 15 et le offset c'est 0, si la page c'est 2, la limit c'est toujours 15 et le offset c'est 15)
+3. modifier la requête du findAll pour y faire un INNER JOIN sur la table user, et donc dans la boucle de résultat, on fera également une instance de User pour l'assigner en author du Post
