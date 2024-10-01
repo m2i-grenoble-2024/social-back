@@ -3,6 +3,7 @@
 
 namespace App\Repository;
 use App\Entity\User;
+use DateTimeImmutable;
 
 class UserRepository {
 
@@ -30,5 +31,19 @@ class UserRepository {
         $query = $connection->prepare('SELECT * FROM user WHERE username=:username OR email=:email');
         $query->bindValue(':username', $identifier);
         $query->bindValue(':email', $identifier);
+        $query->execute();
+
+        if($line = $query->fetch()) {
+            $user = new User();
+            $user->setId($line['id']);
+            $user->setUsername($line['username']);
+            $user->setEmail($line['email']);
+            $user->setPassword($line['password']);
+            $user->setCreatedAt(new DateTimeImmutable($line['created_at']));
+            $user->setRole($line['role']);
+            $user->setBanDate(new DateTimeImmutable($line['ban_date']));
+            return $user;
+        }
+        return null;
     }
 }
