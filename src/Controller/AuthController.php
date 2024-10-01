@@ -31,4 +31,8 @@ class AuthController  extends AbstractController {
             $this->repo->persist($user);
             return $this->json($user, 201);
     }
+    #[Route('/api/user', methods:'GET')]
+    public function getConnectedUser() {
+        return $this->json($this->getUser());
+    }
 }

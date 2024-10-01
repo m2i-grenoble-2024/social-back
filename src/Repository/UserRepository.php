@@ -41,7 +41,10 @@ class UserRepository {
             $user->setPassword($line['password']);
             $user->setCreatedAt(new DateTimeImmutable($line['created_at']));
             $user->setRole($line['role']);
-            $user->setBanDate(new DateTimeImmutable($line['ban_date']));
+            if($line['ban_date']) {
+                $user->setBanDate(new DateTimeImmutable($line['ban_date']));
+
+            }
             return $user;
         }
         return null;
