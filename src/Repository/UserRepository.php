@@ -10,11 +10,11 @@ class UserRepository {
     public function persist(User $user) {
         $connection = Database::connect();
         $query = $connection->prepare('INSERT INTO user (username,email,password,role,created_at) VALUES (:username,:email,:password,:role,:createdAt)');
-        $query->bindValue($user->getUsername(), ':username');
-        $query->bindValue($user->getEmail(), ':email');
-        $query->bindValue($user->getPassword(), ':password');
-        $query->bindValue($user->getRole(), ':role');
-        $query->bindValue($user->getCreatedAt()->format('Y-m-d H:i:s'), ':createdAt');
+        $query->bindValue(':username',$user->getUsername());
+        $query->bindValue(':email',$user->getEmail() );
+        $query->bindValue(':password',$user->getPassword() );
+        $query->bindValue(':role',$user->getRole());
+        $query->bindValue(':createdAt',$user->getCreatedAt()->format('Y-m-d H:i:s'));
 
         $query->execute();
 
