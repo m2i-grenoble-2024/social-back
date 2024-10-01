@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -34,5 +35,15 @@ class AuthController  extends AbstractController {
     #[Route('/api/user', methods:'GET')]
     public function getConnectedUser() {
         return $this->json($this->getUser());
+    }
+
+    #[Route('/api/user/{username}', methods:'PATCH')]
+    public function promoteUser(string $username) {
+        $userToPromote = $this->repo->findByIdentifier($username);
+        if(!$userToPromote)  {
+            throw new NotFoundHttpException('User does not exists');
+        }
+        $userToPromote->setRole('ROLE_MODO');
+        return $this->json($userToPromote);
     }
 }
