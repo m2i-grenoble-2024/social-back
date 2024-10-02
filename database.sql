@@ -38,6 +38,20 @@ INSERT INTO user (username,email,password,role, created_at) VALUES
 
 INSERT INTO post (content, posted_at,respond_to,author_id) VALUES 
 ('test post', NOW(), NULL, 2),
+('test post 2', NOW(), NULL, 2),
+('test post 3', NOW(), NULL, 2),
+('test post 4', NOW(), NULL, 2),
+('test post 5', NOW(), NULL, 2),
+('test post 6', NOW(), NULL, 2),
+('test post 7', NOW(), NULL, 2),
+('test post 8', NOW(), NULL, 2),
+('test post 9', NOW(), NULL, 2),
+('test post 10', NOW(), NULL, 2),
+('test post 11', NOW(), NULL, 2),
+('test post 12', NOW(), NULL, 2),
+('test post 13', NOW(), NULL, 2),
+('test post 14', NOW(), NULL, 2),
+('test post 15', NOW(), NULL, 2),
 ('test post modo', NOW(), NULL, 1),
 ('test response', NOW(), 1, 2),
 ('other test post', NOW(), NULL, 2);

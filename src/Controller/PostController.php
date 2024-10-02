@@ -28,7 +28,7 @@ class PostController extends AbstractController {
         
 
         return $this->json(
-            $this->repo->findAll(($page-1)*15, 15)
+            $this->repo->findAll(($page-1)*10, 10)
         );
     }
     //http://localhost:8000/api/post/user/test?page=....
@@ -43,7 +43,7 @@ class PostController extends AbstractController {
         }
 
         return $this->json(
-            $this->repo->findByUsername($username,($page-1)*15, 15)
+            $this->repo->findByUsername($username,($page-1)*10, 10)
         );
     }
 }
