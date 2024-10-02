@@ -11,6 +11,7 @@ class Post {
     private ?DateTimeImmutable $postedAt = null;
     private ?User $author = null;
     private ?Post $respondTo = null;
+    private int $responseCount = 0;
 
 
     public function getId(): ?int
@@ -69,6 +70,18 @@ class Post {
     public function setRespondTo(?Post $respondTo): self
     {
         $this->respondTo = $respondTo;
+
+        return $this;
+    }
+
+    public function getResponseCount(): int
+    {
+        return $this->responseCount;
+    }
+
+    public function setResponseCount(int $responseCount): self
+    {
+        $this->responseCount = $responseCount;
 
         return $this;
     }

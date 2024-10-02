@@ -31,6 +31,14 @@ class PostController extends AbstractController {
             $this->repo->findAll(($page-1)*10, 10)
         );
     }
+    #[Route('/{respondTo}', methods:'GET')]
+    public function responses(int $respondTo, #[MapQueryParameter] int $page = 1) {
+        
+
+        return $this->json(
+            $this->repo->findResponses($respondTo, ($page-1)*10, 10)
+        );
+    }
     //http://localhost:8000/api/post/user/test?page=....
     #[Route('/user/{username}',methods:'GET')]
     public function byAuthor(
