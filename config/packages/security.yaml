@@ -37,9 +37,15 @@ security:
         
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-        - { path: /api/user, methods: 'GET', roles: IS_AUTHENTICATED_FULLY }
-        - { path: /api/post, methods: 'POST', roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/user/validate, methods: 'GET', roles: PUBLIC_ACCESS }
+        - { path: /api/user, methods: 'GET', roles: ROLE_USER }
+        - { path: /api/post, methods: 'POST', roles: ROLE_USER }
         - { path: ^/api/user/, methods: 'PATCH', roles: ROLE_MODO }
+        - { path: /api/user/validate, methods: 'POST', roles: ROLE_INACTIVE }
+
+    
+    role_hierarchy:
+        ROLE_MODO: ROLE_USER
 
 when@test:
     security:

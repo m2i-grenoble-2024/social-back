@@ -49,4 +49,16 @@ class UserRepository {
         }
         return null;
     }
+
+    public function update(User $user) {
+        $connection = Database::connect();
+        $query = $connection->prepare('UPDATE user SET username=:username,email=:email,password=:password,role=:role WHERE id=:id');
+        $query->bindValue(':username',$user->getUsername());
+        $query->bindValue(':email',$user->getEmail() );
+        $query->bindValue(':password',$user->getPassword() );
+        $query->bindValue(':role',$user->getRole());
+        $query->bindValue(':id',$user->getId());
+
+        $query->execute();
+    }
 }
